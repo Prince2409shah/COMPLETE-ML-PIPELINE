@@ -89,8 +89,8 @@ def main():
         max_features = 5000
 
         # Load processed data
-        train_data = load_data('./data/processed/interim/train_processed.csv')
-        test_data = load_data('./data/processed/interim/test_processed.csv')
+        train_data = load_data('./data/interim/train_processed.csv')
+        test_data = load_data('./data/interim/test_processed.csv')
 
         # Apply TF-IDF Feature Engineering
         train_df, test_df = apply_tfidf(train_data, test_data, max_features)

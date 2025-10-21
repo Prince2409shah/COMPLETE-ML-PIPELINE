@@ -104,7 +104,7 @@ def main(text_column='text', target_column='target'):
         test_processed_data = preprocess_df(test_data, text_column, target_column)
 
         # Store the data inside data/processed/interim
-        data_path = os.path.join("./data", "processed", "interim")
+        data_path = os.path.join("./data", "interim")
         os.makedirs(data_path, exist_ok=True)
 
         train_processed_data.to_csv(os.path.join(data_path, "train_processed.csv"), index=False)

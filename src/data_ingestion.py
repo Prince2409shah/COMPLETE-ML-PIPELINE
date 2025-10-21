@@ -3,6 +3,21 @@ import os
 import logging
 from sklearn.model_selection import train_test_split
 
+
+
+import yaml
+
+def read_params(param_path: str):
+    """Read parameters from params.yaml."""
+    try:
+        with open(param_path, 'r') as yaml_file:
+            params = yaml.safe_load(yaml_file)
+            return params
+    except Exception as e:
+        logger.error('Failed to read parameters file: %s', e)
+        raise
+
+
 # --- Logging Configuration (from image_eb747d.jpg) ---
 
 # Ensure the "logs" directory exists
@@ -97,8 +112,10 @@ def save_data(train_data: pd.DataFrame, test_data: pd.DataFrame, data_path: str)
 
 def main():
     try:
-        # Configuration variables
-        test_size = 0.2
+        # Read parameters from params.yaml
+        params = read_params("params.yaml")
+        test_size = params["data_ingestion"]["test_size"]
+
         # Use local data file in the experiments folder by default
         data_url_path = os.path.join('experiments', 'spam.csv')
         data_path = os.path.join('.', 'data')
@@ -109,10 +126,10 @@ def main():
         # 2. Preprocess data
         final_df = preprocess_data(df)
         
-        # 3. Split data (using the imported train_test_split)
+        # 3. Split data
         train_data, test_data = train_test_split(final_df, test_size=test_size, random_state=2)
         
-        # 4. Save data (ensure base data directory exists)
+        # 4. Save data
         os.makedirs(data_path, exist_ok=True)
         save_data(train_data, test_data, data_path)
 
